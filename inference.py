@@ -1,4 +1,21 @@
+"""
+Test your trained bee detection model on a single image.
+
+Usage:
+    python inference.py --weights runs/detect/bee_model_final/weights/best.pt --image bee_images/beetest.png
+
+This will:
+- Run detection on the image
+- Print the bee count to the terminal
+- Save an annotated version (with bounding boxes drawn) directly into
+  bee_results/, using the same filename as the input image -- no nested
+  or auto-incrementing folders, since we save it manually with OpenCV
+  instead of relying on Ultralytics' built-in save behavior.
+"""
+
 import argparse
+import os
+import cv2
 from ultralytics import YOLO
 
 
@@ -8,10 +25,10 @@ def test_image(weights_path, image_path, conf_threshold, save_dir):
     results = model.predict(
         source=image_path,
         conf=conf_threshold,   # minimum confidence to count as a detection
-        save=True,              # save annotated image with boxes drawn
-        project=save_dir,
-        name="test_results",
+        save=False,             # we'll save it ourselves, exactly where we want
     )
+
+    os.makedirs(save_dir, exist_ok=True)
 
     for result in results:
         num_detections = len(result.boxes)
@@ -23,7 +40,13 @@ def test_image(weights_path, image_path, conf_threshold, save_dir):
             confidences = result.boxes.conf.tolist()
             print(f"Confidence range: {min(confidences):.2f} - {max(confidences):.2f}")
 
-        print(f"\nAnnotated image saved to: {result.save_dir}")
+        # Draw boxes onto the image and save it under the same filename
+        annotated = result.plot()  # returns a numpy array (BGR) with boxes drawn
+        filename = os.path.basename(image_path)
+        out_path = os.path.join(save_dir, filename)
+        cv2.imwrite(out_path, annotated)
+
+        print(f"\nAnnotated image saved to: {out_path}")
 
 
 if __name__ == "__main__":
@@ -32,7 +55,7 @@ if __name__ == "__main__":
     parser.add_argument("--image", required=True, help="Path to test image")
     parser.add_argument("--conf", type=float, default=0.25,
                          help="Confidence threshold (0-1). Lower catches more but risks false positives")
-    parser.add_argument("--save-dir", default="runs/detect", help="Where to save annotated output")
+    parser.add_argument("--save-dir", default="bee_results", help="Folder to save annotated output into")
     args = parser.parse_args()
 
     test_image(args.weights, args.image, args.conf, args.save_dir)

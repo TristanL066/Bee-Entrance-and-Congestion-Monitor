@@ -13,7 +13,6 @@ def train(data_yaml, model_size, epochs, imgsz, batch):
         imgsz=imgsz,
         batch=batch,
         patience=20,        # stop early if val performance plateaus
-        project="runs",
         name="bee_detector",
     )
  
