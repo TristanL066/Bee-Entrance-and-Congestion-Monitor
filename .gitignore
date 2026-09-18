@@ -1,0 +1,7 @@
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Zip files
+*.zip
