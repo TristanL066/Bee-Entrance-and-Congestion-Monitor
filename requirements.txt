@@ -1,3 +1,8 @@
 opencv-python
 
 ultralytics
+
+
+# python inference.py --weights runs\detect\bee_model_final\weights\best.pt --image bee_images\beetest.png 
+
+# python video_inference.py --weights runs\detect\bee_model_final\weights\best.pt --video bee_videos\hivetest.mp4 

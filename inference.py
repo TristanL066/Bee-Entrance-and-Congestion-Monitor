@@ -1,18 +1,3 @@
-"""
-Test your trained bee detection model on a single image.
-
-Usage:
-    python inference.py --weights runs/detect/bee_model_final/weights/best.pt --image bee_images/beetest.png
-
-This will:
-- Run detection on the image
-- Print the bee count to the terminal
-- Save an annotated version (with bounding boxes drawn) directly into
-  bee_results/, using the same filename as the input image -- no nested
-  or auto-incrementing folders, since we save it manually with OpenCV
-  instead of relying on Ultralytics' built-in save behavior.
-"""
-
 import argparse
 import os
 import cv2
@@ -25,7 +10,7 @@ def test_image(weights_path, image_path, conf_threshold, save_dir):
     results = model.predict(
         source=image_path,
         conf=conf_threshold,   # minimum confidence to count as a detection
-        save=False,             # we'll save it ourselves, exactly where we want
+        save=False,
     )
 
     os.makedirs(save_dir, exist_ok=True)
