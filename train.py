@@ -13,7 +13,7 @@ def train(data_yaml, model_size, epochs, imgsz, batch):
         imgsz=imgsz,
         batch=batch,
         patience=20,        # stop early if val performance plateaus
-        name="bee_detector",
+        name="3dbee_detector",
     )
  
     # Validate on the val split and print metrics (precision, recall, mAP)
