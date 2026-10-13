@@ -6,6 +6,8 @@ ultralytics
 # python inference.py --weights runs\detect\bee_model_final\weights\best.pt --image bee_images\beetest.png 
 
 #3D Printed bees
-# python inference.py --weights runs\detect\FINAL_3dbee_detector-2\weights\best.pt --image bee_images\0.png  
+# python inference.py --weights runs\detect\3dbee_detector-3\weights\best.pt --image bee_images\0.png  
 
-# python video_inference.py --weights runs\detect\bee_model_final\weights\best.pt --video bee_videos\hivetest.mp4 
+# python video_inference.py --weights runs\detect\3dbee_detector-3\weights\best.pt --video bee_videos\hivetest.mp4 
+
+python train.py --data C:\Users\Tristan\Downloads\Final_IoT_Dataset.v1i.yolov11 --epochs 100
